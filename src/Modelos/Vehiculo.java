@@ -67,6 +67,7 @@ public class Vehiculo implements Serializable {
                 ", modelo=" + modelo +
                 ", marca=" + marca +
                 ", ano=" + ano +
+                ", descripcion= " + descripcion +
                 '}';
     }
 }

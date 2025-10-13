@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ServiciosTienda {
 
-    public static List<InventarioTienda> ejecutarSQL() {
-        String sql = "SELECT * FROM inventario_tienda";
+    public static List<InventarioTienda> selectAllTiendas() {
+        String sql = "SELECT * FROM inventariotenda";
         List<InventarioTienda> inventariosTienda= new ArrayList<>();
         try (Connection conn = dbConnection.conectar();
              PreparedStatement toRead = conn.prepareStatement(sql);
@@ -22,10 +22,10 @@ public class ServiciosTienda {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                int id_vehiculo = rs.getInt("id_vehiculo");
-                int prezo_mayorista = rs.getInt("prezo_mayorista");
-                int prezo_venta = rs.getInt("prezo_venta");
-                int porcentaxe_oferta = rs.getInt("porcentaxe_oferta");
+                int id_vehiculo = rs.getInt("idvehiculo");
+                int prezo_mayorista = rs.getInt("prezomayorista");
+                int prezo_venta = rs.getInt("prezoventa");
+                int porcentaxe_oferta = rs.getInt("porcentaxeoferta");
 
                 Modelos.InventarioTienda inventario = new Modelos.InventarioTienda(id, id_vehiculo, prezo_mayorista, prezo_venta, porcentaxe_oferta);
                 System.out.println(inventario);
@@ -37,19 +37,36 @@ public class ServiciosTienda {
         return inventariosTienda;
     }
 
-    public static void insertarEntrada(InventarioTienda inventario) {
+    public static void insertarEntradaTienda(int idVehiculo, double prezoMayorista, double prezoVenta, int porcentaxeOferta) {
 
         String sql = "INSERT INTO inventariotenda (idvehiculo, prezomayorista, prezoventa, porcentaxeoferta) VALUES (?, ?, ?, ?)";
         try (Connection conn = dbConnection.conectar();
                 PreparedStatement toInsert = conn.prepareStatement(sql)) {
 
-            toInsert.setInt(1,inventario.getid_vehiculo());
-            toInsert.setInt(2,inventario.getprezo_mayorista());
-            toInsert.setInt(3,inventario.getprezo_venta());
-            toInsert.setInt(4,inventario.getPorcentaxe_oferta());
+            toInsert.setInt(1,idVehiculo);
+            toInsert.setDouble(2,prezoMayorista);
+            toInsert.setDouble(3,prezoVenta);
+            toInsert.setInt(4,porcentaxeOferta);
+            toInsert.executeUpdate();
+            System.out.println("Se realizó la inserción con éxito.");
 
         } catch (SQLException e) {
             System.out.println("Error al insertar la entrada: " + e.getMessage());;
+        }
+    }
+
+    public static void eliminarTodoNOHACERESTONUNCA(){
+        String sql = "DELETE * FROM inventariotenda";
+        try (Connection conn = dbConnection.conectar();
+            PreparedStatement toDelete = conn.prepareStatement(sql)) {
+            int filasAfectadas = toDelete.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("Se eliminó TODO de tiendas inconciente!!!");
+            } else {
+                System.out.println("No se eliminó nada de la tabla.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al tratar de eliminar los datos: " + e.getMessage());;
         }
     }
 }

@@ -63,10 +63,11 @@ public class InventarioTienda implements Serializable {
     @Override
     public String toString() {
         return "InventarioTienda{" +
-                "id=" + id +
-                ", id_vehiculo=" + id_vehiculo +
-                ", prezo_mayorista=" + prezo_mayorista +
-                ", prezo_venta=" + prezo_venta +
+                "id= " + id +
+                ", id_vehiculo= " + id_vehiculo +
+                ", prezo_mayorista= " + prezo_mayorista +
+                ", prezo_venta= " + prezo_venta +
+                ", porcentaxe_oferta= " + porcentaxe_oferta +
                 '}';
     }
 }

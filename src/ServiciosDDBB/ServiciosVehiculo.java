@@ -36,19 +36,36 @@ public class ServiciosVehiculo {
         return vehiculos;
     }
 
-    public static void insertarEntrada(Vehiculo vehiculo) {
+    public static void insertarEntradaVehiculo(String modelo, String marca, int ano, String descripcion) {
 
         String sql = "INSERT INTO vehiculo (modelo, marca, ano, descripcion) VALUES (?, ?, ?, ?)";
         try (Connection conn = dbConnection.conectar();
              PreparedStatement toInsert = conn.prepareStatement(sql)) {
 
-            toInsert.setString(1,vehiculo.getmodelo());
-            toInsert.setString(2,vehiculo.getmarca());
-            toInsert.setInt(3,vehiculo.getano());
-            toInsert.setString(4,vehiculo.getdescripcion());
+            toInsert.setString(1,modelo);
+            toInsert.setString(2,marca);
+            toInsert.setInt(3,ano);
+            toInsert.setString(4,descripcion);
+            toInsert.executeUpdate();
+            System.out.println("Se realizó la inserción con éxito.");
 
         } catch (SQLException e) {
             System.out.println("Error al insertar la entrada: " + e.getMessage());;
+        }
+    }
+
+    public static void eliminarTodoNOHACERESTONUNCA(){
+        String sql = "DELETE FROM vehiculo";
+        try (Connection conn = dbConnection.conectar();
+             PreparedStatement toDelete = conn.prepareStatement(sql)) {
+            int filasAfectadas = toDelete.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("Se eliminó TODO de vehiculos inconciente!!!");
+            } else {
+                System.out.println("No se eliminó nada de la tabla.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al tratar de eliminar los datos: " + e.getMessage());;
         }
     }
 }
