@@ -4,6 +4,7 @@ import Modelos.Vehiculo;
 import ServiciosDDBB.ServiciosTienda;
 import ServiciosDDBB.ServiciosVehiculo;
 import ServiciosSerializar.SerializarService;
+import ServiciosXML.XMLService;
 
 import java.net.ConnectException;
 import java.sql.Connection;
@@ -38,8 +39,15 @@ public class Main {
         //System.out.println(listVehiculos);
         SerializarService.SerializarVehiculos(listVehiculos);
         List<Vehiculo> listVehiculos2 = new ArrayList<>(SerializarService.DeserializarVehiculos("serialVehiculo"));
-        System.out.println(listVehiculos2);
+        List<InventarioTienda> listInv = new ArrayList<>(ServiciosTienda.selectAllTiendas());
+        //System.out.println(listVehiculos2);
+        XMLService.crearXMLVehiculo(listVehiculos2);
+        XMLService.crearXMLTienda(listInv);
+        System.out.println("---------OFERTAS COCHES---------------");
+        //ServiciosTienda.modificarOferta(listInv,15);
 
+        List<InventarioTienda> listInvMustang = new ArrayList<>(ServiciosTienda.selectTiendaPorIdVeiculo(8));
+        System.out.println("El precio del Ford Mustang con un porcentaje de oferta de: " + listInvMustang.get(0).getPorcentaxe_oferta() + " es: " + ( listInvMustang.get(0).getprezo_venta()- (listInvMustang.get(0).getPorcentaxe_oferta() * listInvMustang.get(0).getprezo_venta()/100)));
 
     }
 }
